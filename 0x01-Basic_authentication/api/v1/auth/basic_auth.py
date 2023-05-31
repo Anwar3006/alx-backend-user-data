@@ -7,6 +7,7 @@ import re
 
 class BasicAuth(Auth):
     """
+    Basic authentication class.
     """
 
     def extract_base64_authorization_header(
