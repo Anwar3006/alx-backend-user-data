@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Baic Auth class
 """
-from auth import Auth
+from .auth import Auth
 import re
 import base64
 import binascii
