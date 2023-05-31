@@ -17,7 +17,7 @@ class BasicAuth(Auth):
         """
         if authorization_header is None or\
                 not isinstance(authorization_header, str) or\
-                authorization_header.startswith('Basic ') == False:
+                authorization_header.startswith('Basic ') is False:
             return None
         else:
             split = re.split("Basic\\s", authorization_header)
