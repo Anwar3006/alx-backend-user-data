@@ -4,6 +4,7 @@ Session Authentication
 """
 from .auth import Auth
 from uuid import uuid4
+from models.user import User
 
 
 class SessionAuth(Auth):
@@ -37,7 +38,6 @@ class SessionAuth(Auth):
         """
         Returns a User instance based on a cookie value
         """
-        if request:
-            session_id = self.session_cookie(request)
-            return self.user_id_for_session_id(session_id)
-        return None
+        session_id = self.session_cookie(request)
+        user_id = self.user_id_for_session_id(session_id)
+        return User.get(user_id)

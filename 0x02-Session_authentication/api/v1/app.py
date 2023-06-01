@@ -43,8 +43,7 @@ def before_request_func():
                 abort(401)
             if user is None:
                 abort(403)
-            if auth_header and user:
-                request.current_user = user
+            request.current_user = user
 
 
 @app.errorhandler(404)
