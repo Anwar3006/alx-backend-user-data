@@ -31,7 +31,8 @@ def view_one_user(user_id: str = None) -> str:
         abort(404)
     if user_id == 'me':
         user = BasicAuth.current_user()
-    user = User.get(user_id)
+    else:
+        user = User.get(user_id)
     if user is None:
         abort(404)
     return jsonify(user.to_json())
@@ -124,10 +125,3 @@ def update_user(user_id: str = None) -> str:
         user.last_name = rj.get('last_name')
     user.save()
     return jsonify(user.to_json()), 200
-
-@app_views.route('/users/me', methods=['GET'], strict_slashes=False)
-def get_auth_user(user_id: str = None) -> TypeVar('User'):
-    """
-    Retrieve the authenticated User object.
-    """
-
