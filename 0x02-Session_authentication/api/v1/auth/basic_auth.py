@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Baic Auth class
+"""Basic Auth class
 """
 from .auth import Auth
 import re
