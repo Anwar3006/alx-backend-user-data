@@ -8,7 +8,7 @@ from .users import User
 from os import getenv
 
 
-@app_views.route('/auth_session/login', method=['POST'], strict_slashes=False)
+@app_views.route('/auth_session/login', methods=['POST'], strict_slashes=False)
 def handle_session_auth() -> str:
     """POST /auth_session/login
     Handles all routes for the Session authentication.
@@ -24,8 +24,10 @@ def handle_session_auth() -> str:
     try:
         users = User.search({'email': user_email})
     except Exception:
-        if len(users) <= 0:
-            return jsonify({"error": "no user found for this email"}), 404
+        return jsonify({"error": "no user found for this email"}), 404
+
+    if len(users) <= 0:
+        return jsonify({"error": "no user found for this email"}), 404
 
     if users[0].is_valid_password(user_pwd) is False:
         return jsonify({"error": "wrong password"}), 401
