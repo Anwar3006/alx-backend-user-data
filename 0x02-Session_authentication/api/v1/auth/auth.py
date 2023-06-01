@@ -42,6 +42,6 @@ class Auth:
         Returns a cookie value from a request
         """
         if request:
-            session_id = getenv('SESSION_ID')
-            return request.cookies.get(session_id)
+            cookie_name = getenv('SESSION_NAME')
+            return request.cookies.get(cookie_name)
         return None
