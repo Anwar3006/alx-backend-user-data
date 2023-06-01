@@ -38,11 +38,13 @@ def before_request_func():
                               '/api/v1/auth_session/login/']):
             auth_header = auth.authorization_header(request)
             user = auth.current_user(request)
-            if auth_header is None:
+            cookie_id = auth.session_cookie(request)
+            if auth_header is None and cookie_id is None:
                 abort(401)
             if user is None:
                 abort(403)
-        request.current_user = user
+            if auth_header and user:
+                request.current_user = user
 
 
 @app.errorhandler(404)
