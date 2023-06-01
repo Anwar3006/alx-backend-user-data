@@ -2,7 +2,7 @@
 """
 Session Authentication
 """
-from auth.auth import Auth
+from .auth import Auth
 
 
 class SessionAuth(Auth):
