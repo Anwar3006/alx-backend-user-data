@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.exc import InvalidRequestError
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.orm.session import Session
-from typing import TypeVar
+
 from user import Base, User
 
 
@@ -36,13 +36,12 @@ class DB:
         """
         Add user to DB
         """
-        session = self._session
         try:
             user = User(email, hashed_password)
-            session.add(user)
-            session.commit()
+            self._session.add(user)
+            self._session.commit()
         except Exception:
-            session.rollback()
+            self._session.rollback()
             user = None
         return user
 
