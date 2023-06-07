@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-FLASK APP
+FLASK APP with user authentication features.
 """
-from flask import Flask, jsonify, request, abort, make_response
+from flask import Flask, jsonify, request, abort
 from auth import Auth
 
 
