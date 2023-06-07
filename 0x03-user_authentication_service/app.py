@@ -11,7 +11,7 @@ AUTH = Auth()
 
 
 @app.route('/')
-def index():
+def index() -> str:
     """
     Home page
     """
@@ -19,7 +19,7 @@ def index():
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def users():
+def users()-> str:
     """
     Register users
     """
@@ -38,7 +38,7 @@ def users():
 
 
 @app.route('/sessions', methods=['POST'], strict_slashes=False)
-def login():
+def login() -> str:
     """
     Login for users
     """
