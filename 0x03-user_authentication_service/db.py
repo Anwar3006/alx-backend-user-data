@@ -57,12 +57,12 @@ class DB:
             else:
                 field.append(getattr(User, k))
                 values.append(v)
-                result = self._session.query(User).filter(
-                    tuple_(*field).in_([tuple(values)])).first()
-                if result:
-                    return result
-                else:
-                    raise NoResultFound()
+        result = self._session.query(User).filter(
+            tuple_(*field).in_([tuple(values)])).first()
+        if result:
+            return result
+        else:
+            raise NoResultFound()
 
     def update_user(self, user_id, **kwargs) -> None:
         """
