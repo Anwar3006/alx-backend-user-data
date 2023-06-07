@@ -23,10 +23,10 @@ class User(Base):
 
     def __init__(
             self,
-            email,
-            hashed_password,
-            session_id=None,
-            reset_token=None):
+            email: str,
+            hashed_password: str,
+            session_id: str = None,
+            reset_token: str = None):
         """
         Initialize class
         """
