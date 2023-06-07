@@ -2,13 +2,35 @@
 """
 Main file
 """
+
+from db import DB
+from user import User
 from auth import Auth
 
-email = 'bob@bob.com'
-password = 'MyPwdOfBob'
-auth = Auth()
+AUTH = Auth()
+my_db = DB()
 
-auth.register_user(email, password)
+email = "test@test.com"
+password = "SuperHashedPwd"
+user_1 = AUTH.register_user(email, password)
+sessionID = AUTH.create_session(email)
+token = AUTH.get_reset_password_token(email)
+print(user_1)
 
-print(auth.create_session(email))
-print(auth.create_session("unknown@email.com"))
+print(AUTH.update_password(token, "Jump2DaMoon"))
+# print(user_1)
+# user_1_0 = AUTH.get_user_from_session_id(sessionID)
+
+use = my_db.find_user_by(email=email)
+print("+++++", use)
+
+# user = my_db.add_user("test@test.com", "PwdHashed")
+# print("+++++++++", user.id)
+
+# find_user = my_db.find_user_by(id=2)
+# print("+++++USER_ID+++++++",find_user)
+
+# print(AUTH.valid_login(email, password))
+# print(user_1)
+# print(sessionID)
+# print(user_1_0)

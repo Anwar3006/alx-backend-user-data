@@ -63,14 +63,15 @@ class Auth:
         """
         Returns the session ID
         """
+        user = None
         try:
-            get_user = self._db.find_user_by(email=email)
+            user = self._db.find_user_by(email=email)
         except NoResultFound:
             return None
-        if get_user is None:
+        if user is None:
             return None
         session_id = _generate_uuid()
-        self._db.update_user(get_user.id, session_id=session_id)
+        self._db.update_user(user.id, session_id=session_id)
         return session_id
 
     def get_user_from_session_id(self, session_id: str) -> Union[User, None]:
@@ -93,3 +94,27 @@ class Auth:
         if user_id is None:
             return None
         self._db.update_user(user_id, session_id=None)
+
+    def get_reset_password_token(self, email: str) -> str:
+        """
+        Generate a UUID and update the user’s reset_token database field
+        """
+        user = self._db.find_user_by(email=email)
+        if user is None:
+            raise ValueError()
+        get_uuid = _generate_uuid()
+        self._db.update_user(user.id, reset_token=get_uuid)
+        return get_uuid
+
+    def update_password(self, reset_token: str, password: str) -> None:
+        """
+        Update password of user using reset_token
+        """
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except ValueError:
+            raise ValueError()
+        if user is None:
+            raise ValueError()
+        hashed = _hash_password(password)
+        self._db.update_user(user.id, reset_token=None, hashed_password=hashed)

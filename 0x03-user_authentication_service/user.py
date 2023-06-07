@@ -37,5 +37,8 @@ class User(Base):
 
     def __repr__(self):
         """Return String Representation of Objects"""
-        return 'User with <{}> has password <{}>'\
-            .format(self.email, self.hashed_password)
+        return 'User <{}> password <{}> session_id={} reset_token={}'\
+            .format(self.email,
+                    self.hashed_password,
+                    self.session_id,
+                    self.reset_token)

@@ -68,13 +68,17 @@ class DB:
         """
         Updates the user by user_id
         """
-        obtain_user = self.find_user_by(id=user_id)
-        if obtain_user.id == user_id:
-            for k, v in kwargs.items():
-                if not hasattr(User, k):
-                    raise InvalidRequestError()
-                else:
-                    obtain_user.k = v
-            return None
-        else:
-            raise ValueError()
+        user = self.find_user_by(id=user_id)
+        if user is None:
+            return
+        fields_to_update = {}
+        for key, value in kwargs.items():
+            if hasattr(User, key):
+                fields_to_update[getattr(User, key)] = value
+            else:
+                raise ValueError
+        self.__session.query(User).filter(User.id == user_id).update(
+            fields_to_update,
+            synchronize_session=False
+        )
+        self._session.commit()

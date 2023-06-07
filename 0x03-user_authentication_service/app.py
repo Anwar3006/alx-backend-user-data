@@ -2,7 +2,7 @@
 """
 FLASK APP with user authentication features.
 """
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
 
 
@@ -49,6 +49,48 @@ def login() -> str:
     response = jsonify({"email": email, "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
+
+
+@app.route('/sessions', methods=['DELETE'], strict_slashes=False)
+def logout() -> None:
+    """
+    User logout route
+    """
+    session_id = request.cookies.get('session_id')
+    if session_id is None:
+        abort(403)
+    print(session_id)
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    AUTH.destroy_session(user.id)
+    return redirect('/')
+
+
+@app.route('/profile', methods=['GET'], strict_slashes=False)
+def profile() -> str:
+    """
+    Get user profile based on session_id
+    """
+    session_id = request.cookies.get('session_id')
+    if session_id is None:
+        abort(403)
+    user = AUTH.get_user_from_session_id(session_id)
+    if user is None:
+        abort(403)
+    return jsonify({"email": f"{user.email}"})
+
+
+@app.route('/reset_password', methods=['POST'], strict_slashes=False)
+def get_reset_password_token() -> str:
+    """
+    Return reset token to be used by user to reset password
+    """
+    email, password = request.form.get('email'), request.form.get('password')
+    if not AUTH.valid_login(email, password):
+        abort(403)
+    token = AUTH.get_reset_password_token(email)
+    return jsonify({"email": f"{email}", "reset_token": f"{token}"})
 
 
 if __name__ == "__main__":
