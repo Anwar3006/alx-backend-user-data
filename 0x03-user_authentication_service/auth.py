@@ -20,6 +20,7 @@ def _hash_password(password: str) -> bytes:
     hash_pwd = bcrypt.hashpw(encode_to_byte, bcrypt.gensalt())
     return hash_pwd
 
+
 def _generate_uuid():
     """
     Return a string representation of a new UUID.
@@ -45,7 +46,7 @@ class Auth:
             hash_pwd = _hash_password(password)
             return self._db.add_user(email, hash_pwd)
         raise ValueError("User {} already exists".format(email))
-    
+
     def valid_login(self, email: str, password: str) -> bool:
         """
         Credentials validation
@@ -59,14 +60,12 @@ class Auth:
 
     def create_session(self, email: str) -> str:
         """
-        Returns the session ID 
+        Returns the session ID
         """
         try:
             get_user = self._db.find_user_by(email=email)
         except NoResultFound:
-            return None  
+            return None
         session_id = _generate_uuid()
         self._db.update_user(get_user.id, session_id=session_id)
         return session_id
-            
-            

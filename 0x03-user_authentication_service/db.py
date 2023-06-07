@@ -31,7 +31,7 @@ class DB:
             DBSession = sessionmaker(bind=self._engine)
             self.__session = DBSession()
         return self.__session
-    
+
     def add_user(self, email: str, hashed_password: str) -> User:
         """
         Add user to DB
@@ -41,10 +41,10 @@ class DB:
         session.add(user)
         session.commit()
         return user
-    
+
     def find_user_by(self, **kwargs) -> User:
         """
-        Returns the first row found in the users table 
+        Returns the first row found in the users table
         """
         field = []
         values = []
@@ -75,4 +75,3 @@ class DB:
             return None
         else:
             raise ValueError()
-        

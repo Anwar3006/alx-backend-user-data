@@ -8,6 +8,7 @@ from sqlalchemy import Column, Integer, VARCHAR
 
 Base = declarative_base()
 
+
 class User(Base):
     """
     Create Schema for users
@@ -20,7 +21,12 @@ class User(Base):
     session_id = Column(VARCHAR(250))
     reset_token = Column(VARCHAR(250))
 
-    def __init__(self, email, hashed_password, session_id=None, reset_token=None):
+    def __init__(
+            self,
+            email,
+            hashed_password,
+            session_id=None,
+            reset_token=None):
         """
         Initialize class
         """
@@ -28,7 +34,7 @@ class User(Base):
         self.hashed_password = hashed_password
         self.session_id = session_id
         self.reset_token = reset_token
-    
+
     def __repr__(self):
         """Return String Representation of Objects"""
         return 'User with <{}> has password <{}>'\
