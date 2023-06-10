@@ -99,9 +99,12 @@ class Auth:
         """
         Generate a UUID and update the user’s reset_token database field
         """
-        user = self._db.find_user_by(email=email)
+        try:
+            user = self._db.find_user_by(email=email)
+        except NoResultFound:
+            user = None
         if user is None:
-            raise ValueError()
+            raise ValueError
         get_uuid = _generate_uuid()
         self._db.update_user(user.id, reset_token=get_uuid)
         return get_uuid
