@@ -115,9 +115,9 @@ class Auth:
         """
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-        except ValueError:
-            raise ValueError()
+        except NoResultFound:
+            raise ValueError
         if user is None:
-            raise ValueError()
+            raise ValueError
         hashed = _hash_password(password)
         self._db.update_user(user.id, reset_token=None, hashed_password=hashed)
